@@ -19,7 +19,7 @@ Thumbs.db
 
 # Datos locales (cache)
 # Mantén vacía la carpeta data/ en el repo; el CSV se genera localmente
-/data/
+/data/*
 !data/.gitkeep
 
 # Logs y temporales
