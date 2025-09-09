@@ -42,16 +42,16 @@ Librerías usadas: `requests`, `json`, `pandas`, `matplotlib`, `streamlit`.
 ---
 
 
-## 3) Instalación y ejecución (paso a paso, no técnicos)
+## 3) Instalación y ejecución 
 
 
 1. **Descarga** este proyecto (botón *Download ZIP* o `git clone ...`).  
 2. **Abre una terminal** dentro de la carpeta del proyecto.  
 3. (Opcional) **Crea y activa un entorno virtual**:  
-- Ejecuta: `python -m venv .venv` (o `python3 -m venv .venv` en macOS/Linux).  
-- **Activa** el entorno:  
-- En **macOS/Linux**: `source .venv/bin/activate`  
-- En **Windows**: abre la carpeta `.venv` y luego `Scripts`; ejecuta el archivo `Activate` desde tu terminal.  
+    - Ejecuta: `python -m venv .venv` (o `python3 -m venv .venv` en macOS/Linux).  
+    - **Activa** el entorno:  
+    - En **macOS/Linux**: `source .venv/bin/activate`  
+    - En **Windows**: abre la carpeta `.venv` y luego `Scripts`; ejecuta el archivo `Activate` desde tu terminal.  
 4. **Instala dependencias**:  
 
 ```bash
@@ -71,16 +71,16 @@ streamlit run app.py
 
 
 - **Barra lateral (izquierda):**  
-- **Forzar actualización desde API**: vuelve a descargar datos (ignora el cache).  
-- **Límite de filas** (opcional): útil si tu conexión es lenta; por defecto trae todo.  
+    - **Forzar actualización desde API**: vuelve a descargar datos (ignora el cache).  
+    - **Límite de filas** (opcional): útil si tu conexión es lenta; por defecto trae todo.  
 
 
 - **Pantalla principal:**  
-- **KPIs**: número de filas, capital total, mes inicial y final disponible.  
-- **Gráfico combinado**: línea = **empresas por mes**; barras (transparencia) = **capital total mensual**.  
-Eje izquierdo: empresas; eje derecho: capital.  
-- **Tabla mensual** con botón **Descargar CSV**.  
-- **Detalle** (primeras 1000 filas) con botón **Descargar CSV** del detalle.  
+    - **KPIs**: número de filas, capital total, mes inicial y final disponible.  
+    - **Gráfico combinado**: línea = **empresas por mes**; barras (transparencia) = **capital total mensual**.  
+    Eje izquierdo: empresas; eje derecho: capital.  
+    - **Tabla mensual** con botón **Descargar CSV**.  
+    - **Detalle** (primeras 1000 filas) con botón **Descargar CSV** del detalle.  
 
 
 > Consejo: Si no ves datos, pulsa **Forzar actualización** para traer la última versión desde la API.
@@ -134,22 +134,39 @@ Eje izquierdo: empresas; eje derecho: capital.
 
 
 **¿Necesito cuenta o token?** No. Es público y no requiere autenticación.
-
-
 **¿Se guardan mis datos personales?** No. Solo se descarga información pública y se guarda un cache local (`data/cache.csv`). Puedes borrarlo cuando quieras.
-
-
 **¿Puedo desplegar la app en la nube?** Sí. Por ejemplo, en *Streamlit Community Cloud* (sube el repo a GitHub y selecciona `app.py`).
-
 
 ---
 
-
 ## 9) Créditos
-
 
 - Datos públicos de Chile — **datos.gob.cl** (API CKAN)
 - Registro de Empresas y Sociedades (RES) — *Constituciones 2025 (corte 31‑jul‑2025)*
 
-
 ---
+
+## 10) Despliegue en la web
+
+
+### Opción A — Streamlit Community Cloud (recomendada)
+1. **Sube tu código a GitHub** (repo con estos archivos en la raíz):
+    `app.py`, `api_client.py`, `transform.py`, `analysis.py`, `requirements.txt`, `.gitignore`, carpeta vacía `data/` (con `.gitkeep`).
+2. Entra a **share.streamlit.io** con tu cuenta de GitHub y haz clic en **New app**.
+3. Selecciona tu **repositorio**, **rama** (por ej. `main`) y en **Main file path** escribe: `app.py`.
+4. Presiona **Deploy**. Se construirá el entorno con `requirements.txt` y quedará una **URL pública**.
+    - *Secrets*: no necesitas ninguno (la API es pública).
+    - *Datos*: la app crea `data/cache.csv` en el servidor para acelerar cargas; si algo falla, usa la opción **Forzar actualización** en la barra lateral.
+
+
+**Problemas comunes**
+- *ModuleNotFoundError*: revisa que el paquete esté en `requirements.txt` (ya incluimos: `streamlit`, `pandas`, `matplotlib`, `requests`).
+- *ImportError de módulos locales*: asegúrate de que `app.py` y los `*.py` están en la **raíz** del repo.
+- *Permisos de escritura*: la carpeta `data/` debe existir en tiempo de ejecución; si no existe, el código la crea automáticamente.
+
+
+### Opción B — Hugging Face Spaces (Streamlit)
+1. Crea una cuenta en **huggingface.co** y haz clic en **New Space**.
+2. Elige **SDK: Streamlit**, visibilidad **Public** o **Private**, nombre del Space.
+3. Sube los mismos archivos (`app.py`, `api_client.py`, `transform.py`, `analysis.py`, `requirements.txt`).
+4. Guarda. El Space hará el **build** automático y te dará una **URL pública**.
